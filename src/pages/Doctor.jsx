@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import DoctorCard from "../components/DoctorCard";
+import DoctorCard from "../components/ui/DoctorCard";
 
 //GETTING DOCTORS LIST FROM THE BACKEND
 const Doctor = () => {
@@ -11,7 +11,6 @@ const Doctor = () => {
       const response = await axios.get(
         `${API_BASE_URL}/api/v1/patient/availableDoctors`
       );
-      console.log("Doctors:", response.data.doctorsList);
       setDoctors(response.data.doctorsList);
     } catch (error) {
       console.error("Error fetching doctors:", error);
@@ -23,7 +22,7 @@ const Doctor = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 py-12 px-4 sm:px-6 lg:px-8 mt-10">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-center text-blue-800 mb-12">
           Meet Our Trusted Doctors
