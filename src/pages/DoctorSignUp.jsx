@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { doctorSignUp } from "../services/doctorAuth.services.js";
 import FormInput from "../components/ui/FormInput";
-import { useStore } from "../store/Context.jsx";
 
 const DoctorSignUp = () => {
-    const { doctors} = useStore();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -16,7 +14,6 @@ const DoctorSignUp = () => {
     age: "",
   });
 
-  console.log(doctors)
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -27,7 +24,7 @@ const DoctorSignUp = () => {
       ...pre,
       [name]: value,
     }));
-    setErrors((prev) => ({...prev, [name]: ""}))
+    setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
   const handleSubmit = async (e) => {
@@ -38,12 +35,12 @@ const DoctorSignUp = () => {
     try {
       const data = await doctorSignUp(formData);
       console.log(data);
-    if (data?.message) {
+      if (data?.message) {
         setSuccessMessage(data.message);
       }
 
       localStorage.setItem("token", data.token);
-    //   navigate("/");
+      //   navigate("/");
     } catch (error) {
       console.log("Full error:", error);
 
@@ -146,8 +143,7 @@ const DoctorSignUp = () => {
           error={errors.contactNumber}
         />
 
-        {apiError && <p className="text-red-500 text-sm mt-3">{apiError}</p>
-        }
+        {apiError && <p className="text-red-500 text-sm mt-3">{apiError}</p>}
         {successMessage && (
           <p className="text-green-500 text-sm mt-3">{successMessage}</p>
         )}
