@@ -4,7 +4,6 @@ import axios from "axios";
 import { Mail, Phone, Calendar, User, Briefcase } from "lucide-react";
 import SlotCard from "../components/ui/SlotCard";
 
-
 const DoctorDetails = () => {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
@@ -48,7 +47,8 @@ const DoctorDetails = () => {
                 <span className="font-medium capitalize">{doctor.gender}</span>
               </p>
               <p className="flex items-center gap-2">
-                <Briefcase size={16} className="text-purple-500" /> Specialization:{" "}
+                <Briefcase size={16} className="text-purple-500" />{" "}
+                Specialization:{" "}
                 <span className="font-medium">{doctor.specialization}</span>
               </p>
               <p className="flex items-center gap-2">
@@ -69,7 +69,9 @@ const DoctorDetails = () => {
 
         {/* Available Slots */}
         <div>
-          <h3 className="text-xl font-semibold text-gray-800 mb-4">Available Slots</h3>
+          <h3 className="text-xl font-semibold text-gray-800 mb-4">
+            Available Slots
+          </h3>
           {doctor.availableSlots?.length > 0 ? (
             <div className="grid sm:grid-cols-2 gap-4">
               {doctor.availableSlots.map((slot) => (

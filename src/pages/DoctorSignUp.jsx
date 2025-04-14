@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { doctorSignUp } from "../services/doctorAuth.services";
+import { doctorSignUp } from "../services/doctorAuth.services.js";
 import FormInput from "../components/ui/FormInput";
-
+import { useStore } from "../store/Context.jsx";
 
 const DoctorSignUp = () => {
+    const { doctors} = useStore();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -15,6 +16,7 @@ const DoctorSignUp = () => {
     age: "",
   });
 
+  console.log(doctors)
   const [errors, setErrors] = useState({});
   const [apiError, setApiError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");

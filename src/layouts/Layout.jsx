@@ -5,8 +5,9 @@ import Doctor from '../pages/Doctor';
 import DoctorDetails from '../pages/DoctorDetails';
 import DoctorSignUp from '../pages/DoctorSignUp';
 import Navbar from '../components/ui/Navbar';
+import PatientSignUp from '../pages/PatientSignUp';
 
-const hiddenNavbarRoutes = ['/signup'];
+const hiddenNavbarRoutes = ['/signup', '/patient/signup'];
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -19,6 +20,7 @@ const Layout = () => {
         <Route path="/" element={<Doctor />} />
         <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
         <Route path="/signup" element={<DoctorSignUp />} />
+        <Route path="/patient/signup" element={<PatientSignUp />} />
       </Routes>
     </>
   );

@@ -1,10 +1,12 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect,  } from "react";
 import DoctorCard from "../components/ui/DoctorCard";
+import { useStore } from "../store/Context.jsx";
 
 //GETTING DOCTORS LIST FROM THE BACKEND
 const Doctor = () => {
-  const [doctors, setDoctors] = useState([]);
+    const { doctors, setDoctors } = useStore();
+
   const getDoctors = async () => {
     const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     try {
