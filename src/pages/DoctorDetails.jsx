@@ -1,22 +1,23 @@
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Mail, Phone, Calendar, User, Briefcase } from "lucide-react";
 import SlotCard from "../components/ui/SlotCard";
+import axioInstance from "../config/axiosConfig";
+
 
 const DoctorDetails = () => {
   const { doctorId } = useParams();
   const [doctor, setDoctor] = useState(null);
   const [loadingSlotId, setLoadingSlotId] = useState(null);
-  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-  // 🩺 Fetch doctor details
+  const navigate = useNavigate();
+
+  // FETCHING DOCTOR DETAILS
   useEffect(() => {
     const getDoctorDetails = async () => {
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/api/v1/doctor/getSpecificDoctor/${doctorId}`
-        );
+        
+        const response = await axioInstance.get(`/api/v1/doctor/getSpecificDoctor/${doctorId}`);
         setDoctor(response.data);
       } catch (error) {
         console.error("Error fetching doctor details:", error);
@@ -29,31 +30,25 @@ const DoctorDetails = () => {
   // HANDLE BOOKING SLOT
   const handleBookSlot = async (slotId) => {
     setLoadingSlotId(slotId);
-    const token = localStorage.getItem("token");
-
+    
     try {
       const payload = {
         doctorId,
         slotId,
       };
 
-      const response = await axios.post(
-        `${API_BASE_URL}/api/v1/patient/bookAppointment`,
-        payload,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axioInstance.post("/api/v1/patient/bookAppointment", payload);
 
-      // ✅ Update local state to mark the slot as booked
+      // UPDATE DOCTOR STATE
       setDoctor((prev) => ({
         ...prev,
         availableSlots: prev.availableSlots.map((slot) =>
           slot._id === slotId ? { ...slot, isBooked: true } : slot
         ),
       }));
+
+      navigate("/myAppointments")
+
     } catch (error) {
       console.error("Error booking slot:", error);
     } finally {
@@ -61,7 +56,7 @@ const DoctorDetails = () => {
     }
   };
 
-  
+  // SHOW LOADING SCREEN WHILE DOCTOR DATA IS BEING FETCHED
   if (!doctor) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -72,15 +67,16 @@ const DoctorDetails = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-blue-500 via-white to-purple-500 py-12 px-4">
-      <div className="bg-white rounded-3xl shadow-xl w-full max-w-3xl p-8 space-y-6">
-        {/* 👨‍⚕️ Doctor Info */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="bg-white rounded-3xl  shadow-xl w-full max-w-3xl p-8 space-y-6">
+
+        {/* DOCTOR INFO */}
+        <div className="flex flex-col  sm:flex-row items-start sm:items-center justify-between gap-6">
           <div>
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
               Dr. {doctor.name}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-gray-700 text-sm">
-              <p className="flex items-center gap-2">
+              <p className="flex text-center gap-2">
                 <User size={16} className="text-blue-500" />
                 Gender:{" "}
                 <span className="font-medium capitalize">{doctor.gender}</span>
@@ -108,7 +104,7 @@ const DoctorDetails = () => {
           </div>
         </div>
 
-        {/* ⏱ Available Slots */}
+        {/* AVAILABLE SLOTS */}
         <div>
           <h3 className="text-xl font-semibold text-gray-800 mb-4">
             Available Slots

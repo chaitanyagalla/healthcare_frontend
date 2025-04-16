@@ -1,13 +1,14 @@
-// src/components/Layout.jsx
+
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Doctor from '../pages/Doctor';
 import DoctorDetails from '../pages/DoctorDetails';
-import DoctorSignUp from '../pages/DoctorSignUp';
 import Navbar from '../components/ui/Navbar';
 import PatientSignUp from '../pages/PatientSignUp';
+import Login from '../pages/Login';
+import MyAppointment from '../pages/MyAppointment';
 
-const hiddenNavbarRoutes = ['/signup', '/patient/signup'];
+const hiddenNavbarRoutes = ['/signup', "/login"];
 
 const Layout = () => {
   const { pathname } = useLocation();
@@ -19,8 +20,9 @@ const Layout = () => {
       <Routes>
         <Route path="/" element={<Doctor />} />
         <Route path="/doctor/:doctorId" element={<DoctorDetails />} />
-        <Route path="/signup" element={<DoctorSignUp />} />
         <Route path="/patient/signup" element={<PatientSignUp />} />
+        <Route path='/login' element={<Login/>}/>
+        <Route path='/myAppointments' element={<MyAppointment/>}/>
       </Routes>
     </>
   );
